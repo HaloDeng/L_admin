@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.mobile.css">
+<body>
+<div class="wrapper">
+    <div class="container">
+        <h1>Welcome</h1>
+        <form class="form layui-form" method="post" th:action="@{/admin/logina}">
+            <input class="login_input" name="userName" id="name" placeholder="用户名" autocomplete="off">
+            <input class="login_input" name="passWord" id="pass" type="password" placeholder="密码">
+            <!--样式调不好，不要了,就默认记住密码吧-->
+<!--            <div class="layui-form-item">-->
+<!--                <input style="margin-left: 100px"  type="checkbox" id="remember" name="switch" lay-skin="switch" lay-text="已记住密码|记住密码">-->
+<!--            </div>-->
+            <button id="login-button">登录</button>
+        </form>
+    </div>
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/static/layui/layui.js"></script>
+<script th:inline="javascript">
+    layui.use(['jquery', 'form', 'layer'], function (args) {
+        var $ = layui.jquery,layer=layui.layer;
+        var storage = window.localStorage;
+        var localName = storage.getItem("name");
+        var pass = storage.getItem("pass");
+        if(localName){
+            $("#name").val(localName);
+        }
+        if (pass){
+            $("#pass").val(pass);
+        }
+        var msg = [[${msg}]];
+        if (msg){
+            layer.msg(msg);
+        }
+        $('#login-button').click(function (event) {
+            storage.setItem("name",$("#name").val());
+            storage.setItem("pass",$("#pass").val());
+            event.preventDefault();
+            $('form').fadeOut(500);
+            $('.wrapper').addClass('form-success');
+            $('form').submit();
+        });
+    });
+
+
+</script>
+</body>
+</head></html>
