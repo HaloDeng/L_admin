@@ -1,9 +1,7 @@
 package com.halo.admin.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Hailuo
@@ -12,51 +10,62 @@ import javax.persistence.Id;
  */
 @Entity
 public class Role {
-	private int id;
-	private String name;
-	private String nameZh;
-	private Integer createId;
+    private int id;
+    private String name;
+    private String nameZh;
+    private Integer createId;
 
-	@Id
-	@Column(name = "id")
-	public int getId() {
-		return id;
-	}
+    private List<Menu> menus;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @Id
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
 
-	@Basic
-	@Column(name = "name")
-	public String getName() {
-		return name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
 
-	@Basic
-	@Column(name = "name_zh")
-	public String getNameZh() {
-		return nameZh;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setNameZh(String nameZh) {
-		this.nameZh = nameZh;
-	}
+    @Basic
+    @Column(name = "name_zh")
+    public String getNameZh() {
+        return nameZh;
+    }
 
-	@Basic
-	@Column(name = "create_id")
-	public Integer getCreateId() {
-		return createId;
-	}
+    public void setNameZh(String nameZh) {
+        this.nameZh = nameZh;
+    }
 
-	public void setCreateId(Integer createId) {
-		this.createId = createId;
-	}
+    @Basic
+    @Column(name = "create_id")
+    public Integer getCreateId() {
+        return createId;
+    }
 
+    public void setCreateId(Integer createId) {
+        this.createId = createId;
+    }
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "menu_role",
+            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "menu_id", referencedColumnName = "id")})
+    public List<Menu> getMenus() {
+        return menus;
+    }
 
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
 }
