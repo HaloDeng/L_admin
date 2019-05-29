@@ -1,9 +1,7 @@
 package com.halo.admin.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Hailuo
@@ -18,6 +16,8 @@ public class Menu {
 	private Integer level;
 	private String name;
 	private String pageUrl;
+	@Transient
+	private List<Role> roles;
 
 	@Id
 	@Column(name = "id")
@@ -79,5 +79,11 @@ public class Menu {
 		this.pageUrl = pageUrl;
 	}
 
+	public List<Role> getRoles() {
+		return roles;
+	}
 
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 }
