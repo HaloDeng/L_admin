@@ -2,6 +2,7 @@ package com.halo.admin.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Hailuo
@@ -84,5 +85,19 @@ public class Menu {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", parentId=" + parentId +
+                ", level=" + level +
+                ", name='" + name + '\'' +
+                ", pageUrl='" + pageUrl + '\'' +
+                ", roles=" + roles.stream().map(Role::getName).collect(Collectors.joining(",")) +
+                '}';
     }
 }

@@ -21,8 +21,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private RoleRepository roleRepository;
 
 
 	@Override
@@ -36,8 +34,6 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			throw new UsernameNotFoundException("用户["+username+"]不存在");
 		}
-		List<Role> roles = roleRepository.findByUser(user.getId());
-		user.setRoles(roles);
 		return user;
 	}
 }
