@@ -1,8 +1,11 @@
 package com.halo.admin.controller;
 
+import com.halo.admin.entity.User;
+import com.halo.admin.util.SecurityUtil;
 import com.halo.admin.vo.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,8 +24,9 @@ public class IndexController {
 	}
 
 	@RequestMapping("/index")
-	public String index(){
-		//由于用户配置了角色，但是还未做权限匹配
+	public String index(Model model){
+        User user = SecurityUtil.currentUser();
+        model.addAttribute("user",user);
 		return "page/index";
 	}
 

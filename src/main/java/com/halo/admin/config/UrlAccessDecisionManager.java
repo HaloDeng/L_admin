@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +33,7 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute c : configAttributes) {
+            //该路径需要的权限
             String needRole = c.getAttribute();
             if ("ROLE_LOGIN".equals(needRole)) {
                 if (authentication instanceof AnonymousAuthenticationToken) {
@@ -44,7 +46,9 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
             //当前用户所拥有的权限，也就是角色名
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-            if (authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains(needRole)) {
+            List<String> userRoles = authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+            //如果是超级管理员或者用户拥有所需要的角色直接放行
+            if (userRoles.contains("ROLE_ADMIN")||userRoles.contains(needRole)) {
                 return;
             }
         }

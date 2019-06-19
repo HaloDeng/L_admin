@@ -56,7 +56,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
                 return SecurityConfig.createList(roleNames.toArray(new String[roleNames.size()]));
             }
         }
-        //如果请求路径没有对应菜单相匹配，也就是说该路径不属于任何角色，则默认该路径需要登录才能访问，即登录后的用户可以访问未分配角色的地址
+        //如果请求路径没有对应菜单相匹配，也就是说该路径不属于任何角色，则默认该路径需要登录才能访问，即登录后的用户可以访问任何未分配角色的地址
         return SecurityConfig.createList("ROLE_LOGIN");
     }
 
