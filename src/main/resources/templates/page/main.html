@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/we/css/font.css">
+    <link rel="stylesheet" href="/static/we/css/weadmin.css">
+
+
+</head>
+
+<body>
+<div class="weadmin-body">
+    <blockquote class="layui-elem-quote">这是一个占位页面,如果要添加页面直接,请复制该页面.</blockquote>
+
+    <div style="clear: both;overflow: hidden; margin-top: 10px;">
+        <blockquote class="layui-elem-quote">感谢<a style="color: #1E9FFF" href="https://gitee.com/lovetime/WeAdmin"
+                                                  target="_blank">WeAdmin</a>,Layui,及
+            <a style="color: #1E9FFF" href="http://fly.layui.com/case/2018/" target="_blank">LayUI相关案例</a>
+        </blockquote>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.extend({
+        admin: '{/}../static/we/js/admin'
+    });
+    layui.use(['jquery', 'element', 'util', 'admin', 'carousel'], function () {
+        var element = layui.element,
+            $ = layui.jquery,
+            carousel = layui.carousel,
+            util = layui.util,
+            admin = layui.admin;
+        //建造实例
+        carousel.render({
+            elem: '.weadmin-shortcut'
+            , width: '100%' //设置容器宽度
+            , arrow: 'none' //始终显示箭头
+            , trigger: 'hover'
+            , autoplay: false
+        });
+
+        carousel.render({
+            elem: '.weadmin-notice'
+            , width: '100%' //设置容器宽度
+            , arrow: 'none' //始终显示箭头
+            , trigger: 'hover'
+            , autoplay: true
+        });
+
+        $(function () {
+            setTimeAgo(2018, 0, 1, 13, 14, 0, '#firstTime');
+            setTimeAgo(2019, 5, 20, 16, 0, 0, '#lastTime');
+        });
+
+        function setTimeAgo(y, M, d, H, m, s, id) {
+            var str = util.timeAgo(new Date(y, M || 0, d || 1, H || 0, m || 0, s || 0));
+            $(id).html(str);
+        };
+    });
+</script>
+
+</html>

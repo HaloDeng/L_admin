@@ -30,4 +30,10 @@ public class IndexController {
 		return "page/index";
 	}
 
+	@RequestMapping("/main")
+	public String main(){
+		return "page/main";
+	}
+
+
 }

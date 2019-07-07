@@ -43,8 +43,6 @@ public class WebApplicationConfig implements WebMvcConfigurer {
                 }
                 return params.toString();
             }
-
-
         });
     }
 }

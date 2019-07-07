@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         return o;
                     }
                 })
-
+                .and().headers().frameOptions().sameOrigin()
                 //请求跳转登录页面
                 .and().formLogin().loginPage("/admin/login")
                 .loginProcessingUrl("/admin/logina").usernameParameter("userName").passwordParameter("passWord")//处理登录逻辑的路径
