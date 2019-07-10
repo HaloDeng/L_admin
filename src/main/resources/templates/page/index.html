@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -72,7 +72,7 @@
     <div class="copyright">Copyright ©2018 WeAdmin v1.0 All Rights Reserved</div>
 </div>
 <!-- 底部结束 -->
-<script type="text/javascript">
+<script th:inline="javascript">
     layui.config({
         base: '/static/we/js/'
         , version: '101100'
@@ -83,8 +83,14 @@
     layui.use(['jquery', 'admin', 'menu'], function () {
         var $ = layui.jquery,
             menu = layui.menu;
+
+        var data = [[${menus}]];
+//        console.log(data);
+
+
         $(function () {
-            menu.getMenu('/static/we/menu.json');
+//            menu.getMenu('/static/we/menu.json');
+            menu.getMenuFromData(data);
         });
     });
 

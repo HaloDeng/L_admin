@@ -32,6 +32,8 @@ public class MenuServiceImpl implements MenuService {
         return menuRepository.findAll();
     }
 
+
+    //这个方法用sql代替会更方便
     @Override
     public List<MenuModel> currentUserMenu() {
         User user = SecurityUtil.currentUser();
@@ -48,13 +50,41 @@ public class MenuServiceImpl implements MenuService {
         for (Role role : user.getRoles()) {
             menus.addAll(role.getMenus());
         }
+        return menuRelation(menus);
+    }
+
+
+    /**
+     * 计算父菜单和子菜单
+     * @param menus
+     * @return
+     */
+    private List<MenuModel> menuRelation(Set<Menu> menus) {
+        List<MenuModel> models = new ArrayList<>();
         for (Menu menu : menus) {
-            
+            if (menu.getLevel() < 1) {
+                MenuModel model = new MenuModel();
+                models.add(model);
+                model.setName(menu.getName());
+                model.setUrl(menu.getPageUrl());
+                model.setId(menu.getId());
+                model.setIcon("&#xe6b8;");
+                for (Menu menu1 : menus) {
+                    if (menu1.getParentId() == menu.getId()) {
+                        if (model.getChildren() == null) {
+                            model.setChildren(new ArrayList<>());
+                        }
+                        MenuModel child = new MenuModel();
+                        child.setIcon("");
+                        child.setId(menu1.getId());
+                        child.setName(menu1.getName());
+                        child.setUrl(menu1.getPageUrl());
+                        model.getChildren().add(child);
+                    }
+                }
+            }
         }
-
-
-
-
-        return null;
+        models.removeIf(menuModel -> menuModel.getChildren().size()<1);
+        return models;
     }
 }
