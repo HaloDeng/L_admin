@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //请求跳转登录页面
                 .and().formLogin().loginPage("/admin/login")
                 .loginProcessingUrl("/admin/logina").usernameParameter("userName").passwordParameter("passWord").successForwardUrl("/index")//处理登录逻辑的路径,如果登录成功后想要跳回登录前的地址将successForwardUrl去掉
-                .defaultSuccessUrl("/index").failureUrl("/admin/login?error").permitAll()
+                .defaultSuccessUrl("/index",true).failureUrl("/admin/login?error").permitAll()
                 .and().logout().permitAll()
                 .and().exceptionHandling().accessDeniedHandler((httpServletRequest, httpServletResponse, e) -> {
                     e.printStackTrace();

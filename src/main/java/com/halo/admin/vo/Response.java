@@ -39,7 +39,9 @@ public class Response {
 		return buildResponse(ReturnCode.SUCCESS, null);
 	}
 
-
+    public static Response buildFailResponse(String msg) {
+        return new Response(ReturnCode.FAIL.getCode(), msg, null);
+    }
 
 
 

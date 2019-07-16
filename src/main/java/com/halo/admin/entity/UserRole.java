@@ -11,12 +11,19 @@ import javax.persistence.Table;
  * @Description:
  */
 @Entity
-@Table(name = "user_role", schema = "admin", catalog = "")
+@Table(name = "user_role", schema = "admin")
 public class UserRole {
     private int id;
     private int userId;
     private int roleId;
 
+    public UserRole(int userId, int roleId) {
+        this.userId = userId;
+        this.roleId = roleId;
+    }
+
+    public UserRole() {
+    }
 
     @Id
     @Column(name = "id")

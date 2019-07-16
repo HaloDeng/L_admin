@@ -3,6 +3,7 @@ package com.halo.admin.config.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.halo.admin.constant.ReturnCode;
 import com.halo.admin.vo.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
@@ -22,6 +23,7 @@ import java.io.PrintWriter;
  * @Description： 登录失败处理
  */
 @Component
+@Slf4j
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 	@Override
@@ -31,6 +33,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		PrintWriter pw = response.getWriter();
 		ObjectMapper objectMapper = new ObjectMapper();
 		Response r;
+        log.error("授权失败！",exception);
 		if (exception instanceof UsernameNotFoundException) {
 			r = Response.buildResponse(ReturnCode.USER_NOT_EXIST);
 		} else if (exception instanceof BadCredentialsException) {

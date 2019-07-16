@@ -15,5 +15,5 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 	 * @param name 用户名
 	 * @return 查询到的用户，如果不存在则返回null
 	 */
-	User findByName(String name);
+	User findFirstByName(String name);
 }

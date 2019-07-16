@@ -19,16 +19,5 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
 
-	/**
-	 * 登录页面,未授权请求和登录错误都会返回到该请求
-	 * @return
-	 */
-	@RequestMapping("/login")
-	public String login(String error, Model model) {
-		if ("".equals(error)) {
-			//如果带了参数error表示登录失败了，配置在SecurityConfig的failureUrl中
-			model.addAttribute("msg","用户名或密码错误");
-		}
-		return "page/login";
-	}
+
 }

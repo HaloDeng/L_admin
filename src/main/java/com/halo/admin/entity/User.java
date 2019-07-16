@@ -7,9 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Hailuo
@@ -18,6 +20,8 @@ import java.util.List;
  */
 @Entity
 public class User implements Serializable, UserDetails {
+    public static final Byte STATUS_ENABLE = 1;
+    public static final Byte STATUS_DISABLE = 0;
     private int id;
     private String name;
     private String pass;
@@ -25,11 +29,12 @@ public class User implements Serializable, UserDetails {
     private String address;
     private Byte status;
     private String remark;
-    private Timestamp createTime;
+    private LocalDateTime createTime;
     private List<Role> roles;
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -98,16 +103,13 @@ public class User implements Serializable, UserDetails {
         this.remark = remark;
     }
 
-    @Basic
-    @Column(name = "create_time")
-    public Timestamp getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
-
 
     @Override
     public String toString() {
@@ -166,7 +168,7 @@ public class User implements Serializable, UserDetails {
     @Transient
     @Override
     public boolean isEnabled() {
-        return status == 1;
+        return Objects.equals(status, STATUS_ENABLE);
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
