@@ -31,7 +31,7 @@
 
         </div>
         <div class="layui-row">
-            <button class="layui-btn" onclick="WeAdminShow('添加用户','/admin/addUser')"><i class="layui-icon"></i>添加
+            <button class="layui-btn" onclick="WeAdminShow('添加用户','/admin/addUser',600)"><i class="layui-icon"></i>添加
             </button>
         </div>
         <div class="layui-table" id="users">
@@ -56,6 +56,7 @@
         var adminList = [[${users}]];
         table.render({
             elem: "#users",
+            id:'adminList',
             page: true,
             data: adminList,
             cols: [[ //表头
@@ -76,10 +77,10 @@
                 }
                 , {
                     title: '操作', width: '20%', templet: function (data) {
-                        return "<a title=\"编辑\" onclick=\"WeAdminShow('编辑','./edit.html')\" href=\"javascript:;\">" +
+                        return "<a title=\"编辑\" onclick=\"WeAdminShow('编辑','/admin/editUser?userId="+data.id+"',600)\" href=\"javascript:;\">" +
                             "<i class=\"layui-icon\">&#xe642;</i>" +
                             "</a>" +
-                            "<a title=\"删除\" onclick=\"disableUser("+data.id+")\" href=\"javascript:;\">" +
+                            "<a title=\"启用或禁用\" onclick=\"disableUser("+data.id+")\" href=\"javascript:;\">" +
                             "<i class=\"layui-icon\">&#xe640;</i>" +
                             "</a>";
                     }
@@ -88,25 +89,27 @@
         });
 
 
-        function disableUser(id) {
-            alert("ssss");
-//            $.ajax({
-//                url: '/admin/add',
-//                method: "post",
-//                data:data.field,
-//                success:function (resp) {
-//                    if(resp.code !== 0){
-//                        layer.msg(resp.desc);
-//                    }else {
-//                        layer.alert("增加成功", {icon: 6}, function () {
-//                            // 获得frame索引
-//                            var index = parent.layer.getFrameIndex(window.name);
-//                            //关闭当前frame
-//                            parent.layer.close(index);
-//                        });
-//                    }
-//                }
-//            });
+        window.disableUser = function(id) {
+            $.ajax({
+                url: '/admin/disable',
+                method: "post",
+                data:{"userId":id},
+                success:function (resp) {
+                    if(resp.code !== 0){
+                        layer.msg(resp.desc);
+                    }else {
+                        layer.msg('修改成功',{icon:1},function(){
+                            /**
+                             * 重载表格
+
+                            table.reload('adminList',{
+                                url:''
+                            });*/
+                            location.replace(location.href);
+                        })
+                    }
+                }
+            });
         }
 
     });

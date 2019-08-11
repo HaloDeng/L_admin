@@ -10,5 +10,16 @@ import java.util.List;
  * @Description:
  */
 public interface RoleService {
+    /**
+     * 所有角色
+     * @return
+     */
     List<RoleModel> allRoles();
+
+    /**
+     * 查询用户所属角色
+     * @param userId
+     * @return
+     */
+    List<RoleModel> userRoles(Integer userId);
 }

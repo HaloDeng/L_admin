@@ -1,6 +1,6 @@
 package com.halo.admin.service;
 
-import com.halo.admin.UserException;
+import com.halo.admin.exception.UserException;
 import com.halo.admin.entity.User;
 import com.halo.admin.vo.UserModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,5 +30,28 @@ public interface UserService extends UserDetailsService{
      * 添加管理员
      * @param userModel
      */
-    public void addUser(UserModel userModel) throws UserException;
+    void addUser(UserModel userModel) throws UserException;
+
+
+    /**
+     * 修改管理员
+     * @param userModel
+     */
+    void editUser(UserModel userModel) throws UserException;
+
+    /**
+     * 查询具体管理员
+     * @param userId
+     * @return
+     */
+    UserModel findById(Integer userId);
+
+
+    /**
+     * 禁用管理员
+     * @param userId
+     * @return
+     */
+    Integer disableUser(Integer userId);
+
 }

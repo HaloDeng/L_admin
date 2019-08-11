@@ -1,4 +1,4 @@
-package com.halo.admin;
+package com.halo.admin.exception;
 
 /**
  * @Auther: halo

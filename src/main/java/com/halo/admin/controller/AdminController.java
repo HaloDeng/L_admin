@@ -1,8 +1,11 @@
 package com.halo.admin.controller;
 
 import com.halo.admin.constant.ReturnCode;
+import com.halo.admin.entity.User;
+import com.halo.admin.exception.UserException;
 import com.halo.admin.service.RoleService;
 import com.halo.admin.service.UserService;
+import com.halo.admin.util.SecurityUtil;
 import com.halo.admin.vo.Response;
 import com.halo.admin.vo.UserModel;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +67,33 @@ public class AdminController {
             response = Response.buildFailResponse(e.getMessage());
         }
         return response;
+    }
+
+
+    @RequestMapping("editUser")
+    public String editUser(Integer userId,Model model) {
+        model.addAttribute("u", userService.findById(userId));
+        model.addAttribute("roles", roleService.userRoles(userId));
+        return "page/admin/editUser";
+    }
+
+    @RequestMapping("disable")
+    @ResponseBody
+    public Response disable(Integer userId) {
+        return userService.disableUser(userId) > 0 ? Response.buildResponse():Response.buildFailResponse("更新失败！");
+    }
+
+
+    @RequestMapping("edit")
+    @ResponseBody
+    public Response edit(UserModel model) {
+        try {
+            userService.editUser(model);
+        } catch (UserException e) {
+            log.error("修改用户出错！", e);
+            return Response.buildFailResponse(e.getMessage());
+        }
+        return Response.buildResponse();
     }
 
 }

@@ -12,9 +12,11 @@ import lombok.Data;
 public class RoleModel {
     private Integer id;
     private String name;
+    private Boolean hasRole;
 
-    public RoleModel(Role role) {
+    public RoleModel(Role role,boolean hasRole) {
         this.id = role.getId();
         this.name = role.getNameZh();
+        this.hasRole = hasRole;
     }
 }

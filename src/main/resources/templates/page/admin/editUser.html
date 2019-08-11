@@ -17,49 +17,31 @@
 
 <body>
 <div class="weadmin-body">
-    <form class="layui-form">
+    <form class="layui-form" style="text-align: center">
+
         <div class="layui-form-item">
-            <label for="username" class="layui-form-label">
-                <span class="we-red">*</span>登录名
-            </label>
+            <label for="username" class="layui-form-label">ID</label>
             <div class="layui-input-inline">
-                <input id="username" name="name" required="" lay-verify="required" autocomplete="off"
-                       class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="we-red">*</span>将会成为您唯一的登入名
+                <input id="id" disabled name="id" class="layui-input" th:value="${u.id}">
             </div>
         </div>
 
+
         <div class="layui-form-item">
-            <label for="L_pass" class="layui-form-label">
-                <span class="we-red">*</span>密码
-            </label>
+            <label for="username" class="layui-form-label">登录名</label>
             <div class="layui-input-inline">
-                <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                6到16个字符
+                <input id="username" disabled name="name" required="" lay-verify="required" autocomplete="off"
+                       class="layui-input" th:value="${u.name}">
             </div>
         </div>
 
-        <div class="layui-form-item">
-            <label for="L_repass" class="layui-form-label">
-                <span class="we-red">*</span>确认密码
-            </label>
-            <div class="layui-input-inline">
-                <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
 
         <div class="layui-form-item">
             <label for="phone" class="layui-form-label">
                 联系方式
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="phone" name="phone" autocomplete="off" class="layui-input">
+                <input type="text" id="phone" th:value="${u.phone}" name="phone" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -68,8 +50,8 @@
                 联系地址
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_address" name="address"
-                       autocomplete="off" class="layui-input">
+                <input type="text" id="L_address" name="address" th:value="${u.address}" autocomplete="off"
+                       class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
             </div>
@@ -80,23 +62,25 @@
                 备注
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_remark" name="remark"
-                       autocomplete="off" class="layui-input">
+                <input type="text" id="L_remark" name="remark" th:value="${u.remark}" autocomplete="off"
+                       class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
             </div>
         </div>
 
+
         <div class="layui-form-item">
-            <label class="layui-form-label"><span class="we-red">*</span>角色</label>
+            <label class="layui-form-label" for="roles"><span class="we-red">*</span>角色</label>
             <div class="layui-input-block">
-                <input th:each="role:${roles}" type="checkbox" name="roleIds" lay-skin="primary" th:value="${role.id}"
-                       th:title="${role.name}">
+                <input th:each="role:${roles}" id='roles' type="checkbox" name="roleIds" lay-skin="primary"
+                       th:value="${role.id}" th:title="${role.name}" th:checked="${role.hasRole}">
             </div>
         </div>
 
+
         <div class="layui-form-item">
-            <button class="layui-btn" lay-filter="add" lay-submit="">确认</button>
+            <button class="layui-btn" lay-filter="edit" lay-submit="">确认</button>
         </div>
     </form>
 </div>
@@ -110,36 +94,36 @@
             admin = layui.admin,
             layer = layui.layer,
             $ = layui.jquery;
+
         form.render();
-        //自定义验证规则
-        form.verify({
-            nikename: function (value) {
-                if (value.length < 5) {
-                    return '昵称至少得5个字符啊';
-                }
-            }
-            , pass: [/(.+){6,12}$/, '密码必须6到12位']
-            , repass: function (value) {
-                if ($('#L_pass').val() !== $('#L_repass').val()) {
-                    return '两次密码不一致';
-                }
-            }
-        });
+
         //监听提交
-        form.on('submit(add)', function (data) {
+        form.on('submit(edit)', function (data) {
+            var obj = document.getElementsByName("roleIds");
+            var r = '';
+            for (var k in obj) {
+                console.log(k);
+                if (obj[k].checked){
+                    r += obj[k].value;
+                    r+=","
+                }
+            }
+            r = r.substr(0, r.length - 1);
+            data.field.roleIds = r;
             $.ajax({
-                url: '/admin/add',
+                url: '/admin/edit',
                 method: "post",
-                data:data.field,
-                success:function (resp) {
-                    if(resp.code !== 0){
+                data: reqData,
+                success: function (resp) {
+                    if (resp.code !== 0) {
                         layer.msg(resp.desc);
-                    }else {
-                        layer.alert("增加成功", {icon: 6}, function () {
+                    } else {
+                        layer.alert("修改成功", {icon: 6}, function () {
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
                             parent.layer.close(index);
+                            parent.location.replace(parent.location.href);
                         });
                     }
                 }
